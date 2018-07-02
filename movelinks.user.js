@@ -2,7 +2,7 @@
 // @id iitc-plugin-move-links@Korvinl
 // @name IITC Plugin: Move Links
 // @category Layer
-// @version 0.0.1.20180627.120000
+// @version 0.0.2.20180702
 // @namespace https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL https://github.com/Korvinl/IITC-Ingress-Move-Links/raw/master/movelinks.user.js
 // @downloadURL https://github.com/Korvinl/IITC-Ingress-Move-Links/raw/master/movelinks.user.js
@@ -117,18 +117,39 @@ alert('Moved '+changedCount+' links');
 
 
 var setup = function () {
+
+    //add button
+    $('<style>').prop('type', 'text/css').html('.leaflet-control-move-links a\n{\n	background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyMi4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0i0KHQu9C+0LlfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAzMCAzMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzAgMzA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiMwMDczQkM7fQ0KCS5zdDF7ZmlsbDpub25lO3N0cm9rZTojMDA2Q0I2O3N0cm9rZS13aWR0aDowLjU7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQ0KCS5zdDJ7ZmlsbDojMDA2Q0I2O3N0cm9rZTojMDA2Q0I2O3N0cm9rZS13aWR0aDowLjU7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQ0KCS5zdDN7ZmlsbDojMDA2Q0I2O30NCgkuc3Q0e3N0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1taXRlcmxpbWl0OjEwO30NCjwvc3R5bGU+DQo8Y2lyY2xlIGNsYXNzPSJzdDAiIGN4PSI2LjQiIGN5PSIyNC40IiByPSIzIi8+DQo8bGluZSBjbGFzcz0ic3QxIiB4MT0iMC45IiB5MT0iNS4xIiB4Mj0iNi40IiB5Mj0iMjQuNyIvPg0KPGxpbmUgY2xhc3M9InN0MSIgeDE9IjQuOSIgeTE9IjIuOCIgeDI9IjYuNCIgeTI9IjI0LjQiLz4NCjxsaW5lIGNsYXNzPSJzdDIiIHgxPSI4LjQiIHkxPSIyLjEiIHgyPSI2LjQiIHkyPSIyNC43Ii8+DQo8Y2lyY2xlIGNsYXNzPSJzdDMiIGN4PSIyNC43IiBjeT0iMTMuMSIgcj0iMyIvPg0KPGc+DQoJPHBvbHlnb24gcG9pbnRzPSIxNywxNS4yIDIyLDE0LjkgMjAsMTkuMyAJIi8+DQoJPGxpbmUgY2xhc3M9InN0NCIgeDE9IjE4LjYiIHkxPSIxNy4yIiB4Mj0iMTAuMSIgeTI9IjIyLjgiLz4NCjwvZz4NCjwvc3ZnPg0K");\n}\n.leaflet-control-move-links a.active\n{\n	background-color: #BBB;\n}\n').appendTo('head');
+    var parent = $(".leaflet-top.leaflet-left", window.map.getContainer());
+
+	var button = document.createElement("a");
+	button.className = "leaflet-bar-part";
+	button.addEventListener("click", window.plugin.moveLinks.setBox, false);
+	button.title = 'Move links';
+
+	/*var tooltip = document.createElement("div");
+	tooltip.className = "leaflet-control-move-links-tooltip";
+	button.appendChild(tooltip);*/
+
+	var container = document.createElement("div");
+	container.className = "leaflet-control-move-links leaflet-bar leaflet-control";
+	container.appendChild(button);
+	parent.append(container);
+
     //add options menu
-    $('#toolbox').append('<a onclick="window.plugin.moveLinks.setBox();return false;" accesskey="m" title="[m]Allows to move links between portals">Move Links</a>');
+   /* $('#toolbox').append('<a onclick="window.plugin.moveLinks.setBox();return false;" accesskey="m" title="[m]Allows to move links between portals">Move Links</a>');*/
+
     $('head').append('<style>' +
         '.movelinksSetbox > a { display:block; color:#ffce00; border:1px solid #ffce00; padding:3px 0; margin:10px auto; width:80%; text-align:center; background:rgba(8,48,78,.9); }'+
         '</style>');
+
     if (window.plugin.drawTools === undefined) {
        alert("'Move-Links' requires 'draw-tools'");
        return;
     }
-    debugger;
+    //debugger;
     window.pluginCreateHook('pluginDrawTools');
-    //window.plugin.moveLinks.setBox();
+
 }
 
 
